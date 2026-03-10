@@ -46,7 +46,7 @@ h3{font-size:.65rem;text-transform:uppercase;letter-spacing:2px;color:var(--sub)
 /* Camera — fixed 16:9 display, never compressed */
 .cam-wrap{position:relative;border-radius:var(--radius);overflow:hidden;box-shadow:0 8px 40px #0009;border:2px solid var(--border);line-height:0;width:100%;max-width:520px;aspect-ratio:16/9;flex-shrink:0;transition:box-shadow .3s}
 .cam-wrap:hover{box-shadow:0 12px 50px #00009933,0 0 0 2px var(--accent3)}
-#video{position:absolute;display:block;transform-origin:center center}
+#video{position:absolute;top:0;left:0;width:100%;height:100%;display:block;transform-origin:center center}
 #overlay-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
 .cam-wrap.flash{animation:flash .3s ease-out}
 @keyframes flash{0%{filter:brightness(1)}40%{filter:brightness(12)}100%{filter:brightness(1)}}
@@ -494,12 +494,11 @@ const cdEl=document.getElementById('countdown');
 ══════════════════════════════ */
 const CAP_W=1280, CAP_H=720; // fixed capture resolution for all devices
 
-// Manually size video to cover container (object-fit:cover polyfill for iOS Safari)
+// Poll until video & container both have real dimensions then apply cover crop
 function fitVideo(){
   const vw=video.videoWidth, vh=video.videoHeight;
-  if(!vw||!vh) return;
   const cw=camWrap.offsetWidth, ch=camWrap.offsetHeight;
-  if(!cw||!ch) return;
+  if(!vw||!vh||!cw||!ch){ requestAnimationFrame(fitVideo); return; }
   const scale=Math.max(cw/vw, ch/vh);
   const rw=Math.round(vw*scale), rh=Math.round(vh*scale);
   video.style.width=rw+'px';
@@ -519,13 +518,13 @@ async function startCamera(){
     video.srcObject=stream;
     video.style.transform=mirror?'scaleX(-1)':'scaleX(1)';
     video.style.transformOrigin='center center';
-    video.onloadedmetadata=()=>{
+    // Use oncanplay — fires later than onloadedmetadata, dimensions guaranteed on iOS
+    video.oncanplay=()=>{
       oc.width=CAP_W; oc.height=CAP_H;
-      fitVideo();
+      requestAnimationFrame(fitVideo);
       startOverlayLoop();
     };
-    // Re-fit if container resizes (orientation change etc.)
-    window.addEventListener('resize', fitVideo);
+    window.addEventListener('resize',()=>requestAnimationFrame(fitVideo));
   }catch(e){document.getElementById('cam-error').style.display='flex';}
 }
 function switchCamera(){facingMode=facingMode==='user'?'environment':'user';startCamera();}
