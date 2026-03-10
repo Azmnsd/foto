@@ -51,16 +51,9 @@ h3{font-size:.65rem;text-transform:uppercase;letter-spacing:2px;color:var(--sub)
 .cam-wrap.flash{animation:flash .3s ease-out}
 @keyframes flash{0%{filter:brightness(1)}40%{filter:brightness(12)}100%{filter:brightness(1)}}
 #countdown{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:6rem;font-weight:900;color:#fff;text-shadow:0 0 60px #000;opacity:0;pointer-events:none;z-index:20}
-#recIndicator{position:absolute;top:10px;right:10px;display:none;align-items:center;gap:5px;background:#000b;border-radius:20px;padding:4px 10px;z-index:25;backdrop-filter:blur(4px)}
-#recDot{width:8px;height:8px;border-radius:50%;background:var(--accent);animation:blink .7s infinite}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.15}}
-#recIndicator span{font-size:.7rem;font-weight:800;color:#fff;letter-spacing:1px}
 #cam-error{display:none;position:absolute;inset:0;background:#0d0d20;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:24px;text-align:center}
 #cam-error p{color:var(--sub);font-size:.82rem;line-height:1.6}
 
-/* Live badge on viewfinder */
-#liveBadgeVF{position:absolute;top:10px;left:10px;background:linear-gradient(135deg,var(--accent),var(--accent3));color:#fff;font-size:.68rem;font-weight:900;padding:4px 10px;border-radius:20px;letter-spacing:1px;z-index:15;display:none;animation:pulseBadge 1.5s ease-in-out infinite}
-@keyframes pulseBadge{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.7;transform:scale(.95)}}
 
 /* Capture button */
 .capture-ring{position:relative;display:flex;align-items:center;justify-content:center}
@@ -71,10 +64,6 @@ h3{font-size:.65rem;text-transform:uppercase;letter-spacing:2px;color:var(--sub)
 #captureBtn:active{transform:scale(.93)}
 #captureBtn:disabled{opacity:.35;cursor:not-allowed;transform:none;animation:none}
 
-/* Timer info pill */
-.timer-live-pill{display:none;align-items:center;gap:6px;background:#e9456018;border:1px solid #e9456044;border-radius:20px;padding:5px 12px;font-size:.72rem;color:var(--accent);font-weight:700;animation:fadeInUp .3s ease}
-.timer-live-pill.show{display:flex}
-@keyframes fadeInUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 
 .controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:center}
 .btn{padding:8px 18px;border:none;border-radius:50px;cursor:pointer;font-size:.82rem;font-weight:700;transition:all .18s;letter-spacing:.4px}
@@ -91,16 +80,11 @@ h3{font-size:.65rem;text-transform:uppercase;letter-spacing:2px;color:var(--sub)
 .sel-btn:hover{border-color:var(--accent3);background:var(--card2)}
 .sel-btn.active{border-color:var(--accent);background:#e9456022;color:var(--accent)}
 
-/* Timer buttons — live indicator */
+/* Timer buttons */
 .timer-btns{display:flex;gap:4px}
 .timer-btn{flex:1;padding:7px 2px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text);cursor:pointer;font-size:.76rem;text-align:center;transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:2px;line-height:1}
 .timer-btn:hover{border-color:var(--accent3)}
 .timer-btn.active{background:var(--accent);border-color:var(--accent);color:#fff}
-.timer-btn .live-dot{width:5px;height:5px;border-radius:50%;background:#fff;opacity:.7;display:none}
-.timer-btn.active .live-dot{display:block}
-.timer-btn.no-live{font-style:normal}
-/* Off btn never shows live dot */
-#timerOff .live-dot{display:none!important}
 
 .mode-wrap{display:flex;gap:5px}
 .mode-btn{flex:1;padding:8px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text);cursor:pointer;font-size:.76rem;text-align:center;transition:all .15s}
@@ -128,7 +112,6 @@ input[type=range]{width:100%;accent-color:var(--accent);margin-bottom:9px;cursor
 .strip-thumb.filled{border-color:#fffa}
 .thumb-dl{font-size:.58rem;color:#ffffffaa;background:none;border:none;cursor:pointer;padding:0;transition:color .15s;line-height:1}
 .thumb-dl:hover{color:#fff}
-.live-badge-sm{position:absolute;top:2px;left:2px;background:var(--accent);color:#fff;font-size:.42rem;font-weight:900;padding:1px 4px;border-radius:3px;letter-spacing:.5px}
 #strip-result{display:none;flex-direction:column;align-items:center;gap:10px;width:100%;max-width:520px;animation:slideUp .4s ease}
 @keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 .live-strip-wrap{position:relative;width:100%;cursor:pointer;border-radius:10px;overflow:hidden}
@@ -136,8 +119,6 @@ input[type=range]{width:100%;accent-color:var(--accent);margin-bottom:9px;cursor
 .live-strip-canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;transition:opacity .2s;pointer-events:none;border-radius:10px}
 .live-strip-wrap.playing .live-strip-canvas{opacity:1}
 .live-strip-wrap.playing img{opacity:0}
-.live-badge{position:absolute;top:8px;left:8px;background:var(--accent);color:#fff;font-size:.63rem;font-weight:900;padding:3px 9px;border-radius:20px;letter-spacing:1px;pointer-events:none}
-.live-hint{position:absolute;bottom:8px;right:8px;background:#000b;color:#fffd;font-size:.65rem;padding:3px 9px;border-radius:20px;pointer-events:none}
 .live-progress-bar{position:absolute;bottom:0;left:0;height:3px;background:var(--accent);transition:width .08s linear;pointer-events:none}
 
 /* Gallery */
@@ -149,20 +130,32 @@ input[type=range]{width:100%;accent-color:var(--accent);margin-bottom:9px;cursor
 .live-card-inner video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none}
 .live-card-inner.playing img{opacity:0}
 .live-card-inner.playing video{display:block}
-.live-badge2{position:absolute;top:6px;left:6px;background:var(--accent);color:#fff;font-size:.6rem;font-weight:900;padding:2px 7px;border-radius:20px;letter-spacing:1px}
-.play-hint{position:absolute;bottom:6px;right:6px;background:#000a;color:#fff9;font-size:.63rem;padding:3px 8px;border-radius:20px}
 .photo-actions{display:flex;gap:4px;padding:6px;background:#000c;flex-wrap:wrap;justify-content:flex-end}
 .no-photos{color:var(--sub);font-size:.8rem;text-align:center;padding:28px 0;line-height:2.2}
 #toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(0);background:linear-gradient(135deg,var(--accent),var(--accent3));color:#fff;padding:9px 22px;border-radius:50px;font-size:.82rem;font-weight:700;opacity:0;transition:all .3s;pointer-events:none;z-index:999;white-space:nowrap;box-shadow:0 4px 20px #e9456044}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(-6px)}
 
 @media(max-width:900px){.sidebar{width:190px}.gallery-panel{width:205px}}
-@media(max-width:700px){.gallery-panel{display:none}.sidebar{width:180px}}
+/* Hide gallery panel in the desktop sidebar layout below 700px,
+   but NOT when it's used as a mobile bottom sheet (handled below) */
+@media(max-width:700px) and (min-width:541px){.gallery-panel{display:none}.sidebar{width:180px}}
 @media(max-width:540px){
   html,body{overflow:auto}
   .app{flex-direction:column;overflow:visible;min-height:0}
-  .sidebar,.gallery-panel{position:fixed;bottom:64px;left:0;right:0;width:100%!important;max-height:72vh;overflow-y:auto;border-radius:22px 22px 0 0;border-right:none;border-left:none;border-top:1px solid var(--border);transform:translateY(110%);z-index:250;transition:transform .35s cubic-bezier(.34,1.56,.64,1)}
-  .sidebar.open,.gallery-panel.open{transform:translateY(0)}
+  /* Bottom sheet panels — hidden off-screen by default, never display:none */
+  .sidebar,.gallery-panel{
+    display:block!important;
+    position:fixed;bottom:64px;left:0;right:0;width:100%!important;
+    max-height:72vh;overflow-y:auto;
+    border-radius:22px 22px 0 0;
+    border-right:none;border-left:none;border-top:1px solid var(--border);
+    transform:translateY(110%);
+    z-index:250;
+    transition:transform .35s cubic-bezier(.34,1.56,.64,1);
+    visibility:hidden;
+    background:var(--card);
+  }
+  .sidebar.open,.gallery-panel.open{transform:translateY(0);visibility:visible;}
   .mobile-nav{display:flex}
   .main{padding:12px 10px 80px;overflow:visible}
   .cam-wrap{max-width:100%}
@@ -171,12 +164,26 @@ input[type=range]{width:100%;accent-color:var(--accent);margin-bottom:9px;cursor
   .frame-grid{grid-template-columns:repeat(4,1fr)}
   .sframe-grid{grid-template-columns:repeat(4,1fr)}
   #toast{bottom:76px}
+  /* Gallery grid — 2 columns on mobile for easier browsing */
+  .gallery-list{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .photo-item{width:100%}
+  /* Give live-card-inner an explicit aspect ratio so video has a height to fill */
+  .live-card-inner{aspect-ratio:4/3}
+  .live-card-inner img,.live-card-inner video{
+    position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  }
+  .live-card-inner video{display:block;opacity:0;transition:opacity .25s}
+  .live-card-inner.playing video{opacity:1}
+  .live-card-inner.playing img{opacity:0}
+  /* Action buttons wrap tighter on small screens */
+  .photo-actions{gap:3px;padding:4px}
+  .photo-actions .btn{padding:5px 8px;font-size:.7rem}
 }
 </style>
 </head>
 <body>
 <header>
-  <div style="display:flex;align-items:center;gap:10px"><span style="font-size:1.5rem">📸</span><h1>PHOTOBOOTH</h1></div>
+  <div style="display:flex;align-items:center"><span style="font-size:1.6rem;font-weight:900;letter-spacing:2px;color:#fff;text-shadow:0 2px 12px #0006;font-family:'Segoe UI',system-ui,sans-serif">pix<span style="color:#e94560">.</span>io</span></div>
   <div class="header-actions">
     <button class="icon-btn" id="hdrSettings" onclick="toggleMobilePanel('settings')" title="Settings">⚙️</button>
     <button class="icon-btn" id="hdrGallery" onclick="toggleMobilePanel('gallery')" title="Gallery">🖼</button>
@@ -213,19 +220,19 @@ input[type=range]{width:100%;accent-color:var(--accent);margin-bottom:9px;cursor
   </div>
 
   <div>
-    <h3>Timer <span style="font-size:.62rem;color:var(--accent);font-weight:700;letter-spacing:.5px;text-transform:none;margin-left:4px">· sets live photo</span></h3>
+    <h3>Timer</h3>
     <div class="timer-btns">
       <button class="timer-btn active" id="timerOff" onclick="setTimer(0,this)">
-        <span>Off</span><div class="live-dot"></div>
+        <span>Off</span>
       </button>
       <button class="timer-btn" onclick="setTimer(3,this)">
-        <span>3s</span><div class="live-dot"></div>
+        <span>3s</span>
       </button>
       <button class="timer-btn" onclick="setTimer(5,this)">
-        <span>5s</span><div class="live-dot"></div>
+        <span>5s</span>
       </button>
       <button class="timer-btn" onclick="setTimer(10,this)">
-        <span>10s</span><div class="live-dot"></div>
+        <span>10s</span>
       </button>
     </div>
   </div>
@@ -262,8 +269,6 @@ input[type=range]{width:100%;accent-color:var(--accent);margin-bottom:9px;cursor
     <video id="video" autoplay playsinline muted></video>
     <canvas id="overlay-canvas"></canvas>
     <div id="countdown"></div>
-    <div id="recIndicator"><div id="recDot"></div><span>REC</span></div>
-    <div id="liveBadgeVF">📽️ LIVE</div>
     <div id="cam-error">
       <span style="font-size:2.5rem">📷</span><strong>Camera unavailable</strong>
       <p>Allow camera access in your browser settings, then retry.</p>
@@ -279,16 +284,11 @@ input[type=range]{width:100%;accent-color:var(--accent);margin-bottom:9px;cursor
     <button class="btn btn-ghost btn-sm" onclick="toggleMirror()">↔️ Mirror</button>
   </div>
 
-  <!-- Live photo info pill -->
-  <div class="timer-live-pill" id="livePill">
-    <span>📽️</span><span id="livePillText">Live photo — recording starts with timer</span>
-  </div>
 
   <!-- Strip progress -->
   <div class="strip-bar" id="stripBar" style="display:none">
     <div><strong style="font-size:.85rem">Strip Mode</strong><br><span style="font-size:.72rem;opacity:.75" id="stripLabel">0 / 3</span></div>
     <div class="strip-thumbs" id="stripThumbs"></div>
-    <button class="btn btn-ghost btn-sm" onclick="resetStrip()">↺</button>
   </div>
 
   <!-- Strip result -->
@@ -297,15 +297,13 @@ input[type=range]{width:100%;accent-color:var(--accent);margin-bottom:9px;cursor
     <div class="live-strip-wrap" id="liveStripWrap">
       <img id="stripImg" alt="Photo strip"/>
       <canvas id="liveStripCanvas" class="live-strip-canvas"></canvas>
-      <div class="live-badge" id="liveStripBadge" style="display:none">LIVE</div>
-      <div class="live-hint" id="liveStripHint" style="display:none">Hover to play</div>
       <div class="live-progress-bar" id="liveProgressBar" style="width:0"></div>
     </div>
     <div class="controls">
       <button class="btn btn-primary btn-sm" onclick="downloadStrip()">⬇ PNG</button>
       <button class="btn btn-ghost btn-sm" id="dlLiveBtn" style="display:none" onclick="downloadLiveStrip()">📽️ MP4</button>
       <button class="btn btn-ghost btn-sm" onclick="saveStripToGallery()">🖼 Gallery</button>
-      <button class="btn btn-ghost btn-sm" onclick="resetStrip()">↺ New</button>
+      <button class="btn btn-ghost btn-sm" onclick="resetStrip()">↺ New Strip</button>
     </div>
   </div>
 
@@ -560,10 +558,8 @@ function startLiveRec(){
   catch(e){mediaRecorder=new MediaRecorder(liveStream);}
   mediaRecorder.ondataavailable=e=>{if(e.data&&e.data.size>0)recordedChunks.push(e.data);};
   mediaRecorder.start(100);
-  document.getElementById('recIndicator').style.display='flex';
 }
 function stopLiveRec(cb){
-  document.getElementById('recIndicator').style.display='none';
   // Stop the offscreen canvas render loop
   if(liveRecRaf){cancelAnimationFrame(liveRecRaf);liveRecRaf=null;}
   liveRecCtx=null;liveRecCanvas=null;
@@ -648,18 +644,7 @@ function setTimer(t,btn){
   timerSec=t;
   document.querySelectorAll('.timer-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
-  // Live photo ON only when timer > 0
   liveEnabled=t>0;
-  const pill=document.getElementById('livePill');
-  const vfBadge=document.getElementById('liveBadgeVF');
-  if(liveEnabled){
-    pill.classList.add('show');
-    document.getElementById('livePillText').textContent=`Live photo ON — recording ${t}s before shutter`;
-    vfBadge.style.display='block';
-  }else{
-    pill.classList.remove('show');
-    vfBadge.style.display='none';
-  }
 }
 
 /* ══════════════════════════════
@@ -681,8 +666,35 @@ function setStripSize(n,btn){stripSize=n;btn.parentElement.querySelectorAll('.se
 ══════════════════════════════ */
 function capturePhoto(){
   if(countdownActive)return;
+  // If strip just completed, act as "New Strip" button
+  const cb=document.getElementById('captureBtn');
+  if(cb.dataset.newStrip==='1'){
+    cb.dataset.newStrip='';cb.textContent='📸';cb.title='';
+    resetStrip();return;
+  }
+  if(mode==='strip'){
+    // In strip mode: one press fires all remaining shots automatically
+    const shotsLeft=stripSize-stripPhotos.length;
+    if(shotsLeft<=0)return;
+    document.getElementById('captureBtn').disabled=true;
+    fireStripShots(shotsLeft,0);
+    return;
+  }
   if(liveEnabled)startLiveRec();
   timerSec>0?runCountdown(timerSec,shootFrame):shootFrame();
+}
+function fireStripShots(total,fired){
+  if(fired>=total){document.getElementById('captureBtn').disabled=false;return;}
+  // Start live recording before countdown for each shot
+  if(liveEnabled)startLiveRec();
+  const doShoot=()=>{
+    shootFrame();
+    // Wait for shootFrame's async liveRec stop (1500ms) + small gap, then fire next
+    const delay=liveEnabled?2200:timerSec>0?400:300;
+    setTimeout(()=>fireStripShots(total,fired+1),delay);
+  };
+  if(timerSec>0){runCountdown(timerSec,doShoot);}
+  else{doShoot();}
 }
 function runCountdown(n,cb){
   countdownActive=true;document.getElementById('captureBtn').disabled=true;
@@ -734,6 +746,8 @@ function resetStrip(){
   stripPhotos=[];stripLiveBlobs=[];stripDataURL=null;stripVideoBlob=null;
   document.getElementById('strip-result').style.display='none';
   document.getElementById('dlLiveBtn').style.display='none';
+  const _cb=document.getElementById('captureBtn');
+  _cb.disabled=false;_cb.textContent='📸';_cb.title='';_cb.dataset.newStrip='';
   renderStripThumbs();
 }
 function addToStrip(dataURL,liveBlob){
@@ -748,7 +762,6 @@ function renderStripThumbs(){
     const w=document.createElement('div');w.className='strip-thumb-wrap';
     if(stripPhotos[i]){
       const img=document.createElement('img');img.className='strip-thumb filled';img.src=stripPhotos[i];w.appendChild(img);
-      if(stripLiveBlobs[i]){const b=document.createElement('div');b.className='live-badge-sm';b.textContent='LIVE';w.appendChild(b);}
       // Photo download
       const dl=document.createElement('button');dl.className='thumb-dl';dl.textContent='⬇ photo';
       const idx=i;
@@ -790,6 +803,8 @@ function buildStrip(){
     stripDataURL=strip.toDataURL('image/png');
     document.getElementById('stripImg').src=stripDataURL;
     document.getElementById('strip-result').style.display='flex';
+    const cb=document.getElementById('captureBtn');
+    cb.disabled=false;cb.textContent='↺';cb.title='New Strip';cb.dataset.newStrip='1';
     showToast('🎞️ Strip ready!');
     if(stripLiveBlobs.some(b=>b))buildLiveStripVideo(SW,SH,pw,ph,pad,gap,lbl,cols);
   });
@@ -852,8 +867,6 @@ function setupLiveStripPreview(lsCanvas,vidEls,stillImgs,SW,SH,pw,ph,pad,gap,lbl
   const wrap=document.getElementById('liveStripWrap');
   const lctx=lsCanvas.getContext('2d');
   const sf=getSFD();
-  document.getElementById('liveStripBadge').style.display='block';
-  document.getElementById('liveStripHint').style.display='block';
   const bar=document.getElementById('liveProgressBar');
   let playing=false,rafId,startTs=null;
   const loopDur=Math.min(6,Math.max(2,...vidEls.map(v=>v?v.duration||2:0)))*1000;
@@ -908,9 +921,7 @@ function renderGallery(){
     if(p.liveBlob){
       const img=document.createElement('img');img.src=p.dataURL;
       const vid=document.createElement('video');vid.src=URL.createObjectURL(p.liveBlob);vid.loop=true;vid.muted=true;vid.playsInline=true;
-      const b=document.createElement('div');b.className='live-badge2';b.textContent='LIVE';
-      const h=document.createElement('div');h.className='play-hint';h.textContent='Hold to play';
-      inner.append(img,vid,b,h);
+      inner.append(img,vid);
       inner.addEventListener('mouseenter',()=>{inner.classList.add('playing');vid.play().catch(()=>{});});
       inner.addEventListener('mouseleave',()=>{inner.classList.remove('playing');vid.pause();vid.currentTime=0;});
       inner.addEventListener('touchstart',e=>{e.preventDefault();inner.classList.contains('playing')?(inner.classList.remove('playing'),vid.pause(),vid.currentTime=0):(inner.classList.add('playing'),vid.play().catch(()=>{}));},{passive:false});
