@@ -44,7 +44,7 @@ header h1{font-size:1.35rem;letter-spacing:3px;font-weight:900;text-shadow:0 2px
 h3{font-size:.65rem;text-transform:uppercase;letter-spacing:2px;color:var(--sub);margin-bottom:8px}
 
 /* Camera — fixed 16:9 display, never compressed */
-.cam-wrap{position:relative;border-radius:var(--radius);overflow:hidden;box-shadow:0 8px 40px #0009;border:2px solid var(--border);line-height:0;width:100%;max-width:520px;aspect-ratio:16/9;flex-shrink:0;transition:box-shadow .3s}
+.cam-wrap{position:relative;border-radius:var(--radius);overflow:hidden;box-shadow:0 8px 40px #0009;border:2px solid var(--border);line-height:0;width:100%;max-width:520px;aspect-ratio:4/3;flex-shrink:0;transition:box-shadow .3s}
 .cam-wrap:hover{box-shadow:0 12px 50px #00009933,0 0 0 2px var(--accent3)}
 #video{position:absolute;top:0;left:0;width:100%;height:100%;display:block;transform-origin:center center}
 #overlay-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
@@ -492,7 +492,7 @@ const cdEl=document.getElementById('countdown');
 /* ══════════════════════════════
    CAMERA
 ══════════════════════════════ */
-const CAP_W=1280, CAP_H=720; // fixed capture resolution for all devices
+const CAP_W=1280, CAP_H=960; // fixed capture resolution for all devices
 
 // Poll until video & container both have real dimensions then apply cover crop
 function fitVideo(){
@@ -512,7 +512,7 @@ async function startCamera(){
   if(stream)stream.getTracks().forEach(t=>t.stop());
   try{
     stream=await navigator.mediaDevices.getUserMedia({
-      video:{facingMode,width:{ideal:1920,min:640},height:{ideal:1080,min:480},frameRate:{ideal:30}},
+      video:{facingMode,width:{ideal:1280},height:{ideal:960},aspectRatio:{ideal:1.333},frameRate:{ideal:30}},
       audio:false
     });
     video.srcObject=stream;
