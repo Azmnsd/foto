@@ -494,6 +494,9 @@ const cdEl=document.getElementById('countdown');
 ══════════════════════════════ */
 const CAP_W=1280, CAP_H=720; // fixed capture resolution for all devices
 
+/* Offscreen canvas used to feed live recording with correct crop + filters */
+let liveRecCanvas=null,liveRecCtx=null,liveRecRaf=null;
+
 async function startCamera(){
   document.getElementById('cam-error').style.display='none';
   if(stream)stream.getTracks().forEach(t=>t.stop());
@@ -523,17 +526,47 @@ function toggleMirror(){mirror=!mirror;video.style.transform=mirror?'scaleX(-1)'
 ══════════════════════════════ */
 function getMime(){return['video/webm;codecs=vp9','video/webm;codecs=vp8','video/webm','video/mp4'].find(t=>MediaRecorder.isTypeSupported(t))||'';}
 function getExt(blob){return blob&&blob.type.includes('mp4')?'mp4':'webm';}
+
 function startLiveRec(){
   if(!stream||!liveEnabled)return;
   stopLiveRec();recordedChunks=[];
-  try{mediaRecorder=new MediaRecorder(stream,getMime()?{mimeType:getMime()}:{});}
-  catch(e){mediaRecorder=new MediaRecorder(stream);}
+
+  // Create offscreen canvas at capture resolution, draw cropped+filtered video into it
+  liveRecCanvas=document.createElement('canvas');
+  liveRecCanvas.width=CAP_W;liveRecCanvas.height=CAP_H;
+  liveRecCtx=liveRecCanvas.getContext('2d');
+
+  function renderFrame(){
+    if(!liveRecCtx)return;
+    const ctx=liveRecCtx;
+    // Apply mirror
+    ctx.save();
+    if(mirror){ctx.translate(CAP_W,0);ctx.scale(-1,1);}
+    // Draw cropped video (object-fit:cover behaviour)
+    ctx.filter=buildFS();
+    drawCover(ctx,video,CAP_W,CAP_H);
+    ctx.restore();
+    // Overlay
+    ctx.filter='none';
+    drawOverlay(ctx,CAP_W,CAP_H);
+    liveRecRaf=requestAnimationFrame(renderFrame);
+  }
+  renderFrame();
+
+  let liveStream;
+  try{liveStream=liveRecCanvas.captureStream(30);}catch(e){liveRecCanvas=null;liveRecCtx=null;return;}
+
+  try{mediaRecorder=new MediaRecorder(liveStream,getMime()?{mimeType:getMime()}:{});}
+  catch(e){mediaRecorder=new MediaRecorder(liveStream);}
   mediaRecorder.ondataavailable=e=>{if(e.data&&e.data.size>0)recordedChunks.push(e.data);};
   mediaRecorder.start(100);
   document.getElementById('recIndicator').style.display='flex';
 }
 function stopLiveRec(cb){
   document.getElementById('recIndicator').style.display='none';
+  // Stop the offscreen canvas render loop
+  if(liveRecRaf){cancelAnimationFrame(liveRecRaf);liveRecRaf=null;}
+  liveRecCtx=null;liveRecCanvas=null;
   if(!mediaRecorder||mediaRecorder.state==='inactive'){cb&&cb(null);return;}
   mediaRecorder.onstop=()=>{const blob=recordedChunks.length?new Blob(recordedChunks,{type:mediaRecorder.mimeType}):null;recordedChunks=[];cb&&cb(blob);};
   mediaRecorder.stop();
@@ -780,7 +813,22 @@ async function buildLiveStripVideo(SW,SH,pw,ph,pad,gap,lbl,cols){
 
   function drawAll(){
     sf.bg(lctx,SW,SH);
-    vidEls.forEach((vid,i)=>{const col=i%cols,row=Math.floor(i/cols),x=pad+col*(pw+gap),y=pad+row*(ph+gap);lctx.drawImage(vid&&!vid.paused&&!vid.ended?vid:stillImgs[i],x,y,pw,ph);});
+    vidEls.forEach((vid,i)=>{
+      const col=i%cols,row=Math.floor(i/cols),x=pad+col*(pw+gap),y=pad+row*(ph+gap);
+      const src=vid&&!vid.paused&&!vid.ended?vid:stillImgs[i];
+      lctx.save();
+      lctx.beginPath();lctx.rect(x,y,pw,ph);lctx.clip();
+      // drawCover into the cell rect
+      const sw=src.videoWidth||src.naturalWidth||pw,sh=src.videoHeight||src.naturalHeight||ph;
+      if(sw&&sh){
+        const scale=Math.max(pw/sw,ph/sh);
+        const dw=sw*scale,dh=sh*scale;
+        lctx.drawImage(src,x+(pw-dw)/2,y+(ph-dh)/2,dw,dh);
+      }else{
+        lctx.drawImage(src,x,y,pw,ph);
+      }
+      lctx.restore();
+    });
     sf.decor(lctx,SW,SH,pad,lbl);
   }
 
@@ -811,7 +859,14 @@ function setupLiveStripPreview(lsCanvas,vidEls,stillImgs,SW,SH,pw,ph,pad,gap,lbl
   const loopDur=Math.min(6,Math.max(2,...vidEls.map(v=>v?v.duration||2:0)))*1000;
   function drawAll(){
     sf.bg(lctx,SW,SH);
-    vidEls.forEach((vid,i)=>{const col=i%cols,row=Math.floor(i/cols),x=pad+col*(pw+gap),y=pad+row*(ph+gap);lctx.drawImage(vid&&!vid.paused?vid:stillImgs[i],x,y,pw,ph);});
+    vidEls.forEach((vid,i)=>{const col=i%cols,row=Math.floor(i/cols),x=pad+col*(pw+gap),y=pad+row*(ph+gap);
+      const src=vid&&!vid.paused?vid:stillImgs[i];
+      lctx.save();lctx.beginPath();lctx.rect(x,y,pw,ph);lctx.clip();
+      const sw=src.videoWidth||src.naturalWidth||pw,sh=src.videoHeight||src.naturalHeight||ph;
+      if(sw&&sh){const scale=Math.max(pw/sw,ph/sh);const dw=sw*scale,dh=sh*scale;lctx.drawImage(src,x+(pw-dw)/2,y+(ph-dh)/2,dw,dh);}
+      else{lctx.drawImage(src,x,y,pw,ph);}
+      lctx.restore();
+    });
     sf.decor(lctx,SW,SH,pad,lbl);
   }
   function loop(ts){
