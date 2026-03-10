@@ -46,7 +46,7 @@ h3{font-size:.65rem;text-transform:uppercase;letter-spacing:2px;color:var(--sub)
 /* Camera — fixed 16:9 display, never compressed */
 .cam-wrap{position:relative;border-radius:var(--radius);overflow:hidden;box-shadow:0 8px 40px #0009;border:2px solid var(--border);line-height:0;width:100%;max-width:520px;aspect-ratio:16/9;flex-shrink:0;transition:box-shadow .3s}
 .cam-wrap:hover{box-shadow:0 12px 50px #00009933,0 0 0 2px var(--accent3)}
-#video{position:absolute;top:0;left:0;width:100%;height:100%;display:block;transform-origin:center center}
+#video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
 #overlay-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
 .cam-wrap.flash{animation:flash .3s ease-out}
 @keyframes flash{0%{filter:brightness(1)}40%{filter:brightness(12)}100%{filter:brightness(1)}}
@@ -494,46 +494,29 @@ const cdEl=document.getElementById('countdown');
 ══════════════════════════════ */
 const CAP_W=1280, CAP_H=720; // fixed capture resolution for all devices
 
-// Poll until video & container both have real dimensions then apply cover crop
-function fitVideo(){
-  const vw=video.videoWidth, vh=video.videoHeight;
-  const cw=camWrap.offsetWidth, ch=camWrap.offsetHeight;
-  if(!vw||!vh||!cw||!ch){ requestAnimationFrame(fitVideo); return; }
-  const scale=Math.max(cw/vw, ch/vh);
-  const rw=Math.round(vw*scale), rh=Math.round(vh*scale);
-  video.style.width=rw+'px';
-  video.style.height=rh+'px';
-  video.style.top=Math.round((ch-rh)/2)+'px';
-  video.style.left=Math.round((cw-rw)/2)+'px';
-}
-
 async function startCamera(){
   document.getElementById('cam-error').style.display='none';
   if(stream)stream.getTracks().forEach(t=>t.stop());
   try{
     stream=await navigator.mediaDevices.getUserMedia({
-      video:{facingMode,width:{ideal:1920,min:640},height:{ideal:1080,min:480},frameRate:{ideal:30}},
+      video:{
+        facingMode,
+        width:{ideal:1920,min:640},
+        height:{ideal:1080,min:480},
+        frameRate:{ideal:30}
+      },
       audio:false
     });
     video.srcObject=stream;
-    video.style.transform=mirror?'scaleX(-1)':'scaleX(1)';
-    video.style.transformOrigin='center center';
-    // Use oncanplay — fires later than onloadedmetadata, dimensions guaranteed on iOS
-    video.oncanplay=()=>{
-      oc.width=CAP_W; oc.height=CAP_H;
-      requestAnimationFrame(fitVideo);
+    video.onloadedmetadata=()=>{
+      // Always render overlay at fixed capture size
+      oc.width=CAP_W;oc.height=CAP_H;
       startOverlayLoop();
     };
-    window.addEventListener('resize',()=>requestAnimationFrame(fitVideo));
   }catch(e){document.getElementById('cam-error').style.display='flex';}
 }
 function switchCamera(){facingMode=facingMode==='user'?'environment':'user';startCamera();}
-function toggleMirror(){
-  mirror=!mirror;
-  video.style.transform=mirror?'scaleX(-1)':'scaleX(1)';
-  video.style.transformOrigin='center center';
-  fitVideo();
-}
+function toggleMirror(){mirror=!mirror;video.style.transform=mirror?'scaleX(-1)':'scaleX(1)';}
 
 /* ══════════════════════════════
    LIVE / RECORDING
