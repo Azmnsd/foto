@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>📸 pix.io</title>
+<title>📸 Photobooth</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{--bg:#0a0a14;--card:#13132a;--card2:#1c1c3a;--accent:#e94560;--accent2:#0f3460;--accent3:#533483;--text:#f0f0ff;--sub:#8888aa;--border:#252545;--radius:14px;}
@@ -165,7 +165,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin-bottom:9px;cursor
 </head>
 <body>
 <header>
-  <div style="display:flex;align-items:center;gap:10px"><span style="font-size:1.5rem">📸</span><h1>pix.io</h1></div>
+  <div style="display:flex;align-items:center;gap:10px"><span style="font-size:1.5rem">📸</span><h1>PHOTOBOOTH</h1></div>
   <div class="header-actions">
     <button class="icon-btn" id="hdrSettings" onclick="toggleMobilePanel('settings')" title="Settings">⚙️</button>
     <button class="icon-btn" id="hdrGallery" onclick="toggleMobilePanel('gallery')" title="Gallery">🖼</button>
@@ -338,7 +338,7 @@ const STRIP_FRAMES = [
     decor:(c,W,H,pad,lbl)=>{
       c.strokeStyle='#e0e0e0';c.lineWidth=2;c.strokeRect(1,1,W-2,H-2);
       c.strokeStyle='#ccc';c.lineWidth=1;c.strokeRect(pad-4,pad-4,W-pad*2+8,H-lbl-pad+4);
-      c.fillStyle='#aaa';c.font=`bold ${Math.round(W*.035)}px sans-serif`;c.textAlign='center';c.textBaseline='middle';c.fillText('📸  pix.io',W/2,H-lbl/2);
+      c.fillStyle='#aaa';c.font=`bold ${Math.round(W*.035)}px sans-serif`;c.textAlign='center';c.textBaseline='middle';c.fillText('📸  PHOTOBOOTH',W/2,H-lbl/2);
     },
     previewBg:'#ffffff',previewAccent:'#cccccc'
   },
@@ -348,7 +348,7 @@ const STRIP_FRAMES = [
     decor:(c,W,H,pad,lbl)=>{
       c.strokeStyle='#333';c.lineWidth=2;c.strokeRect(1,1,W-2,H-2);
       c.strokeStyle='#444';c.lineWidth=1;c.setLineDash([6,4]);c.strokeRect(pad-4,pad-4,W-pad*2+8,H-lbl-pad+4);c.setLineDash([]);
-      c.fillStyle='#888';c.font=`bold ${Math.round(W*.035)}px monospace`;c.textAlign='center';c.textBaseline='middle';c.fillText('// pix.io //',W/2,H-lbl/2);
+      c.fillStyle='#888';c.font=`bold ${Math.round(W*.035)}px monospace`;c.textAlign='center';c.textBaseline='middle';c.fillText('// PHOTOBOOTH //',W/2,H-lbl/2);
     },
     previewBg:'#0e0e0e',previewAccent:'#555555'
   },
@@ -365,7 +365,7 @@ const STRIP_FRAMES = [
       c.font=`${Math.round(W*.055)}px serif`;c.textBaseline='top';
       for(let i=0;i<6;i++)c.fillText(em[i%5],i*(W/6)+2,2);
       for(let i=0;i<6;i++)c.fillText(em[(i+2)%5],i*(W/6)+2,H-lbl-Math.round(W*.06)+2);
-      c.fillStyle='#e75480';c.font=`bold ${Math.round(W*.036)}px sans-serif`;c.textAlign='center';c.textBaseline='middle';c.fillText('♡ pix.io ♡',W/2,H-lbl/2);
+      c.fillStyle='#e75480';c.font=`bold ${Math.round(W*.036)}px sans-serif`;c.textAlign='center';c.textBaseline='middle';c.fillText('♡ PHOTOBOOTH ♡',W/2,H-lbl/2);
     },
     previewBg:'#ffe4f4',previewAccent:'#ffb3d9'
   },
@@ -382,7 +382,7 @@ const STRIP_FRAMES = [
       const stars=Array.from({length:30},()=>({x:Math.random()*W,y:Math.random()*(H-lbl-pad)}));
       c.fillStyle='rgba(255,255,255,.6)';
       stars.forEach(s=>{c.beginPath();c.arc(s.x,s.y+pad,Math.random()*1.2+.3,0,Math.PI*2);c.fill();});
-      c.fillStyle='#a78bfa';c.font=`bold ${Math.round(W*.035)}px sans-serif`;c.textAlign='center';c.textBaseline='middle';c.fillText('✨ pix.io ✨',W/2,H-lbl/2);
+      c.fillStyle='#a78bfa';c.font=`bold ${Math.round(W*.035)}px sans-serif`;c.textAlign='center';c.textBaseline='middle';c.fillText('✦ PHOTOBOOTH ✦',W/2,H-lbl/2);
     },
     previewBg:'#06061a',previewAccent:'#4433aa'
   },
@@ -401,7 +401,7 @@ const STRIP_FRAMES = [
         c.beginPath();c.moveTo(x+sx*co,y);c.lineTo(x,y);c.lineTo(x,y+sy*co);c.stroke();
         c.beginPath();c.arc(x,y,3,0,Math.PI*2);c.fillStyle='#ffd700';c.fill();
       });
-      c.fillStyle='#ffd700';c.font=`bold ${Math.round(W*.035)}px serif`;c.textAlign='center';c.textBaseline='middle';c.fillText('✦ pix.io ✦',W/2,H-lbl/2);
+      c.fillStyle='#ffd700';c.font=`bold ${Math.round(W*.035)}px serif`;c.textAlign='center';c.textBaseline='middle';c.fillText('✦ PHOTOBOOTH ✦',W/2,H-lbl/2);
     },
     previewBg:'#0c0900',previewAccent:'#b8960c'
   },
@@ -419,7 +419,7 @@ const STRIP_FRAMES = [
       colors.forEach((col,i)=>{c.fillStyle=col;c.fillRect(i*seg,0,seg,5);c.fillRect(i*seg,H-5,seg,5);});
       const segH=(H-10)/colors.length;
       colors.forEach((col,i)=>{c.fillStyle=col;c.fillRect(0,5+i*segH,5,segH);c.fillRect(W-5,5+i*segH,5,segH);});
-      c.fillStyle='#999';c.font=`bold ${Math.round(W*.035)}px sans-serif`;c.textAlign='center';c.textBaseline='middle';c.fillText('🌈 pix.io 🌈',W/2,H-lbl/2);
+      c.fillStyle='#999';c.font=`bold ${Math.round(W*.035)}px sans-serif`;c.textAlign='center';c.textBaseline='middle';c.fillText('🌈 PHOTOBOOTH 🌈',W/2,H-lbl/2);
     },
     previewBg:'#fff5f5',previewAccent:'#ffadad'
   },
@@ -437,7 +437,7 @@ const STRIP_FRAMES = [
       // Corner stamps
       const sz=Math.round(W*.07);c.font=`${sz}px serif`;c.textBaseline='top';
       ['📷','✂️','📷','✂️'].forEach((e,i)=>{const p=[[2,2],[W-sz-2,2],[2,H-lbl-sz-2],[W-sz-2,H-lbl-sz-2]];c.fillText(e,p[i][0],p[i][1]);});
-      c.fillStyle='#5a3e00';c.font=`bold ${Math.round(W*.036)}px serif`;c.textAlign='center';c.textBaseline='middle';c.fillText('pix.io',W/2,H-lbl/2);
+      c.fillStyle='#5a3e00';c.font=`bold ${Math.round(W*.036)}px serif`;c.textAlign='center';c.textBaseline='middle';c.fillText('PHOTOBOOTH',W/2,H-lbl/2);
     },
     previewBg:'#c8a96e',previewAccent:'#8b6914'
   },
@@ -453,7 +453,7 @@ const STRIP_FRAMES = [
       // Scan lines on sides
       c.fillStyle='rgba(0,255,255,.06)';for(let y=0;y<H;y+=4)c.fillRect(0,y,W,2);
       c.fillStyle='#00ffff';c.font=`bold ${Math.round(W*.038)}px monospace`;c.textAlign='center';c.textBaseline='middle';
-      c.shadowColor='#00ffff';c.shadowBlur=8;c.fillText('[ pix.io ]',W/2,H-lbl/2);c.shadowBlur=0;
+      c.shadowColor='#00ffff';c.shadowBlur=8;c.fillText('[ PHOTOBOOTH ]',W/2,H-lbl/2);c.shadowBlur=0;
     },
     previewBg:'#050010',previewAccent:'#ff00ff'
   },
@@ -481,13 +481,27 @@ const cdEl=document.getElementById('countdown');
 /* ══════════════════════════════
    CAMERA
 ══════════════════════════════ */
+const CAP_W=1280, CAP_H=720; // fixed capture resolution for all devices
+
 async function startCamera(){
   document.getElementById('cam-error').style.display='none';
   if(stream)stream.getTracks().forEach(t=>t.stop());
   try{
-    stream=await navigator.mediaDevices.getUserMedia({video:{facingMode,width:{ideal:1280}},audio:false});
+    stream=await navigator.mediaDevices.getUserMedia({
+      video:{
+        facingMode,
+        width:{ideal:1920,min:640},
+        height:{ideal:1080,min:480},
+        frameRate:{ideal:30}
+      },
+      audio:false
+    });
     video.srcObject=stream;
-    video.onloadedmetadata=()=>{oc.width=video.videoWidth;oc.height=video.videoHeight;startOverlayLoop();};
+    video.onloadedmetadata=()=>{
+      // Always render overlay at fixed capture size
+      oc.width=CAP_W;oc.height=CAP_H;
+      startOverlayLoop();
+    };
   }catch(e){document.getElementById('cam-error').style.display='flex';}
 }
 function switchCamera(){facingMode=facingMode==='user'?'environment':'user';startCamera();}
@@ -633,16 +647,25 @@ function runCountdown(n,cb){
 }
 function shootFrame(){
   camWrap.classList.add('flash');setTimeout(()=>camWrap.classList.remove('flash'),350);
-  const cw=video.videoWidth,ch=video.videoHeight;
-  const canvas=document.createElement('canvas');canvas.width=cw;canvas.height=ch;
+
+  // Always capture at fixed resolution regardless of device camera output
+  const canvas=document.createElement('canvas');
+  canvas.width=CAP_W;canvas.height=CAP_H;
   const ctx=canvas.getContext('2d');
-  if(mirror){ctx.translate(cw,0);ctx.scale(-1,1);}
-  ctx.drawImage(video,0,0,cw,ch);
+
+  if(mirror){ctx.translate(CAP_W,0);ctx.scale(-1,1);}
+  // Scale video frame up/down to fill fixed canvas
+  ctx.drawImage(video,0,0,CAP_W,CAP_H);
   ctx.setTransform(1,0,0,1,0,0);
-  const tmp=document.createElement('canvas');tmp.width=cw;tmp.height=ch;
+
+  // Apply filter via offscreen canvas at same fixed size
+  const tmp=document.createElement('canvas');tmp.width=CAP_W;tmp.height=CAP_H;
   const tctx=tmp.getContext('2d');tctx.filter=buildFS();tctx.drawImage(canvas,0,0);
-  ctx.clearRect(0,0,cw,ch);ctx.drawImage(tmp,0,0);
-  getFD().draw(ctx,cw,ch);
+  ctx.clearRect(0,0,CAP_W,CAP_H);ctx.drawImage(tmp,0,0);
+
+  // Draw overlay (vignette, corner marks etc.)
+  drawOverlay(ctx,CAP_W,CAP_H);
+
   const dataURL=canvas.toDataURL('image/png');
   if(liveEnabled){
     setTimeout(()=>stopLiveRec(blob=>{
