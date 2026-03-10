@@ -656,25 +656,30 @@ function runCountdown(n,cb){
   let c=n;cdEl.textContent=c;cdEl.style.opacity=1;
   const iv=setInterval(()=>{c--;if(c<=0){clearInterval(iv);cdEl.style.opacity=0;cdEl.textContent='';document.getElementById('captureBtn').disabled=false;countdownActive=false;cb();}else cdEl.textContent=c;},1000);
 }
+// Draws video onto canvas cropped like object-fit:cover (no squish, no stretch)
+function drawCover(ctx, vid, dw, dh){
+  const vw=vid.videoWidth, vh=vid.videoHeight;
+  if(!vw||!vh) return;
+  const scale=Math.max(dw/vw, dh/vh);
+  const sw=dw/scale, sh=dh/scale;
+  const sx=(vw-sw)/2, sy=(vh-sh)/2;
+  ctx.drawImage(vid, sx, sy, sw, sh, 0, 0, dw, dh);
+}
+
 function shootFrame(){
   camWrap.classList.add('flash');setTimeout(()=>camWrap.classList.remove('flash'),350);
 
-  // Always capture at fixed resolution regardless of device camera output
   const canvas=document.createElement('canvas');
   canvas.width=CAP_W;canvas.height=CAP_H;
   const ctx=canvas.getContext('2d');
 
   if(mirror){ctx.translate(CAP_W,0);ctx.scale(-1,1);}
-  // Scale video frame up/down to fill fixed canvas
-  ctx.drawImage(video,0,0,CAP_W,CAP_H);
+  drawCover(ctx, video, CAP_W, CAP_H); // crop, not compress
   ctx.setTransform(1,0,0,1,0,0);
 
-  // Apply filter via offscreen canvas at same fixed size
   const tmp=document.createElement('canvas');tmp.width=CAP_W;tmp.height=CAP_H;
   const tctx=tmp.getContext('2d');tctx.filter=buildFS();tctx.drawImage(canvas,0,0);
   ctx.clearRect(0,0,CAP_W,CAP_H);ctx.drawImage(tmp,0,0);
-
-  // Draw overlay (vignette, corner marks etc.)
   drawOverlay(ctx,CAP_W,CAP_H);
 
   const dataURL=canvas.toDataURL('image/png');
